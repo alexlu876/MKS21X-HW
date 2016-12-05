@@ -19,7 +19,7 @@ public class SuperArrayIterator implements Iterator<String>{
 			return a.get(start - 1);
 		}
 		else{
-			throw new NoSuchElementExcpetion();
+			throw new NoSuchElementException();
 		}
 	}
 	
