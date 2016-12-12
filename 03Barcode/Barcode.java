@@ -18,8 +18,8 @@ public class Barcode {//implements Comparable<Barcode>{
 		}
 		this.zip = zip;
 		int temp = 0;
-		for(char a : zip){
-			temp += a;
+		for(int i = 0; i < 5; i++){
+			temp += zip.charAt(i);
 		}
 		zip += (temp % 10);
 	}
