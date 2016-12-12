@@ -5,7 +5,7 @@ public class Barcode implements Comparable<Barcode>{
 	private String zip;
 	
 	private static final String[] converter = {"||:::", ":::||", "::|:|", "::||:",  ":|::|",   ":|:|:",  ":||::",  "|:::|",   "|::|:",  "|:|::", };
-	
+	// this will be used to add on the bars without a switch statement
 	public Barcode(String zip){
 		if (zip.length() != 5){
 			throw new IllegalArgumentException();
@@ -45,13 +45,13 @@ public class Barcode implements Comparable<Barcode>{
 	}
 	
 	public static String toZip(String code){
-		if(code.length() != 32){
+		if(code.length() != 32){ //wrong length
 			throw new IllegalArgumentException("Must be length 32");
 		}
-		if (code.charAt(0) != '|' || code.charAt(31) != '|'){
+		if (code.charAt(0) != '|' || code.charAt(31) != '|'){ //no caps
 			throw new IllegalArgumentException("Need guard caps");
 		}
-		for(int i = 0; i < 32; i++){
+		for(int i = 0; i < 32; i++){ //not using : or |
 			if(code.charAt(i) != ':' && code.charAt(i) != '|'){
 				throw new IllegalArgumentException("Bad character");
 			}
@@ -62,13 +62,13 @@ public class Barcode implements Comparable<Barcode>{
 			String hold = temp.substring(i * 5, i * 5 + 5);
 			int a = Arrays.asList(converter).indexOf(hold);
 			if(a == -1){
-				throw new IllegalArgumentException("Invalid translation");
+				throw new IllegalArgumentException("Invalid translation"); //bars dont convert to an int
 			}
 			product += a;
 		}
 		//checking the checksum
 		if (checkSum(product)){
-			throw new IllegalArgumentException("Checksum not satisfied");
+			throw new IllegalArgumentException("Checksum not satisfied"); //checksum not satisfied
 		}
 		return product;
 	}
@@ -97,22 +97,6 @@ public class Barcode implements Comparable<Barcode>{
 	public String toString(){
 		return this.zip + " " + toCode(zip.substring(0,5));
 	}
-	
-	public static void main(String[]args){
-	
-	Barcode a = new Barcode("41824");
-	System.out.println(a);
-	Barcode b = new Barcode("18249");
-	System.out.println(b);
-	
-	System.out.println(a.compareTo(b));
-	System.out.println(b.compareTo(a));
-	
-	System.out.println(toCode("47162"));
-	System.out.println(toCode("41828"));
-	System.out.println(toZip("||||||||||||||||||||||||||||||||"));
-    }
-
 	
 	
 	
