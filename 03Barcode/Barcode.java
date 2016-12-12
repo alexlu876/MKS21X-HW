@@ -1,10 +1,10 @@
 import java.util.*;
 
-public class Barcode {//implements Comparable<Barcode>{
+public class Barcode implements Comparable<Barcode>{
 	
 	private String zip;
 	
-	private final String[] values = {"||:::", ":::||", "::|:|", "::||:",  ":|::|",   ":|:|:",  ":||::",  "|:::|",   "|::|:",  "|:|::", };
+	private static final String[] converter = {"||:::", ":::||", "::|:|", "::||:",  ":|::|",   ":|:|:",  ":||::",  "|:::|",   "|::|:",  "|:|::", };
 	
 	public Barcode(String zip){
 		if (zip.length() != 5){
@@ -29,6 +29,48 @@ public class Barcode {//implements Comparable<Barcode>{
 	
 	public int compareTo(Barcode code){
 		return (this.getZip().compareTo(code.getZip()));
+	}
+	
+	private static boolean checkSum(String a){
+		int b = 0;
+		for(int i = 0; i < 5; i++){
+			b += Integer.parseInt(a.charAt(i) + "");
+		}
+		if(b % 10 == Integer.parseInt(a.charAt(5) + "")){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+	
+	public static String toZip(String code){
+		if(code.length() != 32){
+			throw new IllegalArgumentException("Must be length 32");
+		}
+		if (code.charAt(0) != '|' || code.charAt(31) != '|'){
+			throw new IllegalArgumentException("Need guard caps");
+		}
+		for(int i = 0; i < 32; i++){
+			if(code.charAt(i) != ':' && code.charAt(i) != '|'){
+				throw new IllegalArgumentException("Bad character");
+			}
+		}
+		String product = "";
+		String temp = code.substring(1,31);
+		for(int i = 0; i < 6; i++){
+			String hold = temp.substring(i * 5, i * 5 + 5);
+			int a = Arrays.asList(converter).indexOf(hold);
+			if(a == -1){
+				throw new IllegalArgumentException("Invalid translation");
+			}
+			product += a;
+		}
+		//checking the checksum
+		if (checkSum(product)){
+			throw new IllegalArgumentException("Checksum not satisfied");
+		}
+		return product;
 	}
 	
 }
