@@ -27,5 +27,8 @@ public class Barcode {//implements Comparable<Barcode>{
 		return zip;
 	}
 	
+	public int compareTo(Barcode code){
+		return (this.getZip().compareTo(code.getZip()));
+	}
 	
 }
