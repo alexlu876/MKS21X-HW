@@ -19,7 +19,7 @@ public class Barcode implements Comparable<Barcode>{
 		this.zip = zip;
 		int temp = 0;
 		for(int i = 0; i < 5; i++){
-			temp += zip.charAt(i);
+			temp += Integer.parseInt(zip.charAt(i) + "");
 		}
 		zip += (temp % 10);
 	}
@@ -73,4 +73,56 @@ public class Barcode implements Comparable<Barcode>{
 		return product;
 	}
 	
+	public static String toCode(String zip){
+		if(zip.length() != 5){
+			throw new IllegalArgumentException("Wrong length");
+		}
+		try{
+			Integer.parseInt(zip);
+		}	
+		catch(NumberFormatException e){
+			throw new IllegalArgumentException("A char is not a digit");
+		}
+		String temp = "|";
+		int z = 0;
+		for(int i = 0; i < 5; i++){
+			int a = Integer.parseInt(zip.charAt(i) + "");
+			temp += converter[a];
+			z += a;
+		}
+		temp += (converter[z % 10] + "|");
+		return temp;
+	}
+	
+	
+	
+	
+	
 }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
