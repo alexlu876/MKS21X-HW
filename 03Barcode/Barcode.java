@@ -94,6 +94,26 @@ public class Barcode implements Comparable<Barcode>{
 		return temp;
 	}
 	
+	public String toString(){
+		return this.zip + " " + toCode(zip.substring(0,5));
+	}
+	
+	public static void main(String[]args){
+	
+	Barcode a = new Barcode("41824");
+	System.out.println(a);
+	Barcode b = new Barcode("18249");
+	System.out.println(b);
+	
+	System.out.println(a.compareTo(b));
+	System.out.println(b.compareTo(a));
+	
+	System.out.println(toCode("47162"));
+	System.out.println(toCode("41828"));
+	System.out.println(toZip("||||||||||||||||||||||||||||||||"));
+    }
+
+	
 	
 	
 	
